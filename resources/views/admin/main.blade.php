@@ -59,16 +59,22 @@
                     <span>Semester</span></a>
             </li>
 
-            <li class="nav-item {{ Request::is('admin/dosen') ||  Request::is('admin/dosen/tambah') ? 'active' : ''}}">
+            <li class="nav-item {{ Request::is('admin/dosen') ||  Request::is('admin/dosen/*') ? 'active' : ''}}">
                 <a class="nav-link" href="/admin/dosen">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Dosen</span></a>
             </li>
 
+            <li class="nav-item {{ Request::is('admin/mahasiswa') ||  Request::is('admin/mahasiswa/*') ? 'active' : ''}}">
+                <a class="nav-link" href="/admin/mahasiswa">
+                    <i class="fas fa-fw fa-user-circle"></i>
+                    <span>Mahasiswa</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <li class="nav-item">
+            <li class="nav-item {{ Request::is('admin/proposal/*') ? 'active' : ''}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-file"></i>
@@ -76,9 +82,9 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">Plot Dosen Pembimbing</a>
-                        <a class="collapse-item" href="#">Monitoring</a>
-                        <a class="collapse-item" href="#">Penjadwalan</a>
+                        <a class="collapse-item" href="admin/proposal/plotting">Plot Dosen Pembimbing</a>
+                        <a class="collapse-item" href="admin/proposal/monitoring">Monitoring</a>
+                        <a class="collapse-item" href="admin/proposal/penjadwalan">Penjadwalan</a>
                     </div>
                 </div>
             </li>
