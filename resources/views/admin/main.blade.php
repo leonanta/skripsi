@@ -12,13 +12,15 @@
     <title>Skripsi TI</title>
 
     <!-- Custom fonts for this template-->
-    <link href="sbadmin2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    <link href="{{ url('sbadmin2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="{{ url('sbadmin2/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    {{-- Datatables --}}
+    <link href="{{  url('sbadmin2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
 </head>
 
@@ -42,8 +44,8 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+            <li class="nav-item {{ Request::is('admin') ? 'active' : ''}}">
+                <a class="nav-link" href="/admin">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -57,8 +59,8 @@
                     <span>Semester</span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item {{ Request::is('admin/dosen') ||  Request::is('admin/dosen/tambah') ? 'active' : ''}}">
+                <a class="nav-link" href="/admin/dosen">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Dosen</span></a>
             </li>
@@ -173,7 +175,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $user -> name }}</span>
                                 <img class="img-profile rounded-circle"
-                                    src="sbadmin2/img/undraw_profile.svg">
+                                    src="{{ url('sbadmin2/img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -250,24 +252,38 @@
         </div>
     </div>
 
-    
 </body>
 
 <!-- Bootstrap core JavaScript-->
-<script src="sbadmin2/vendor/jquery/jquery.min.js"></script>
-<script src="sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url('sbadmin2/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url('sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="sbadmin2/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="{{ url('sbadmin2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="sbadmin2/js/sb-admin-2.min.js"></script>
+<script src="{{ url('sbadmin2/js/sb-admin-2.min.js') }}"></script>
 
 <!-- Page level plugins -->
-<script src="sbadmin2/vendor/chart.js/Chart.min.js"></script>
+<script src="{{ url('sbadmin2/vendor/chart.js/Chart.min.js') }}"></script>
 
 <!-- Page level custom scripts -->
-<script src="sbadmin2/js/demo/chart-area-demo.js"></script>
-<script src="sbadmin2/js/demo/chart-pie-demo.js"></script>
+<script src="{{ url('sbadmin2/js/demo/chart-area-demo.js') }}"></script>
+<script src="{{ url('sbadmin2/js/demo/chart-pie-demo.js') }}"></script>
+
+{{-- Datatables --}}
+<script src="{{  url('sbadmin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{  url('sbadmin2/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+    $('#dataTable').DataTable({
+      'paging'      : true,
+      'searching'   : true,
+      'ordering'    : true,
+      'autoWidth'   : true
+    });
+} );
+</script>
 
 </html>

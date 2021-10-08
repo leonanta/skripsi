@@ -28,6 +28,13 @@ Route::middleware(['auth'])->group(function () {
  
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/admin', 'AdminController@index')->name('admin');
+
+        Route::get('/admin/dosen', 'AdminController@viewDosen')->name('datadosen');
+        Route::get('/admin/dosen/tambah', 'AdminController@formAddDosen')->name('formadddosen');
+        Route::post('/admin/insertdosen', 'AdminController@insertDosen')->name('insertdosen');
+        Route::get('/admin/dosen/edit/{id}', 'AdminController@formEditDosen')->name('formeditdosen');
+        Route::put('/admin/dosen/{id}', 'AdminController@updateDosen')->name('updatedosen');
+        Route::delete('/admin/dosen/{id}', 'AdminController@deleteDosen')->name('deletedosen');
     });
  
     Route::group(['middleware' => 'dosen'], function () {
