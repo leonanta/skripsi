@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDosenTable extends Migration
+class CreateTableDosen extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class CreateDosenTable extends Migration
         Schema::create('dosen', function (Blueprint $table) {
             $table->id();
             $table->string('nidn');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('email');
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreateDosenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dosen');
+        Schema::dropIfExists('table_dosen');
     }
 }

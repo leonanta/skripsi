@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
 
         //Proposal Plotting
         Route::get('/admin/proposal/plotting', 'AdminController@viewProposalPlotting')->name('dataproposalplotting');
+        Route::post('/admin/plotdosbing/importexcel', 'AdminController@plotDosbingImportExcel')->name('plotdosbingimportexcel');
 
         //Proposal Monitoring
         Route::get('/admin/proposal/monitoring', 'AdminController@viewProposalMonitoring')->name('dataproposalmonitoring');

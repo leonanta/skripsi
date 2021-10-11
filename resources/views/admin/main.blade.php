@@ -60,13 +60,13 @@
             </li>
 
             <li class="nav-item {{ Request::is('admin/dosen') ||  Request::is('admin/dosen/*') ? 'active' : ''}}">
-                <a class="nav-link" href="/admin/dosen">
+                <a class="nav-link" href="{{ route('datadosen') }}">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Dosen</span></a>
             </li>
 
             <li class="nav-item {{ Request::is('admin/mahasiswa') ||  Request::is('admin/mahasiswa/*') ? 'active' : ''}}">
-                <a class="nav-link" href="/admin/mahasiswa">
+                <a class="nav-link" href="{{ route('datamahasiswa') }}">
                     <i class="fas fa-fw fa-user-circle"></i>
                     <span>Mahasiswa</span></a>
             </li>
@@ -82,9 +82,9 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="admin/proposal/plotting">Plot Dosen Pembimbing</a>
-                        <a class="collapse-item" href="admin/proposal/monitoring">Monitoring</a>
-                        <a class="collapse-item" href="admin/proposal/penjadwalan">Penjadwalan</a>
+                        <a class="collapse-item" href="{{ route('dataproposalplotting') }}">Plot Dosen Pembimbing</a>
+                        <a class="collapse-item" href="#">Monitoring</a>
+                        <a class="collapse-item" href="#">Penjadwalan</a>
                     </div>
                 </div>
             </li>

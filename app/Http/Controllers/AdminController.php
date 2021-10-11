@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 use App\DosenModel;
 use App\MahasiswaModel;
+use App\PlotDosbingModel;
+use App\Imports\PlotDosbingImport;
+use App\Imports\UserImport;
+use App\Imports\MahasiswaImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -134,8 +139,33 @@ class AdminController extends Controller
     //Proposal Plotting
     public function viewProposalPlotting(){
         $user = Auth::user();
-        return view('admin.proposal.plotting.read', compact('user'));
+        $data = PlotDosbingModel::all();
+        return view('admin.proposal.plotting.read', compact('data', 'user'));
     }
+
+    public function plotDosbingImportExcel(Request $request) 
+	{
+		// validasi
+		$this->validate($request, [
+			'file' => 'required|mimes:csv,xls,xlsx'
+		]);
+ 
+		// menangkap file excel
+		$file = $request->file('file');
+ 
+		// membuat nama file unik
+		$nama_file = rand().$file->getClientOriginalName();
+ 
+		// upload ke folder file_siswa di dalam folder public
+		$file->move('files',$nama_file);
+ 
+		// import data
+		Excel::import(new PlotDosbingImport, public_path('/files/'.$nama_file));
+        Excel::import(new UserImport, public_path('/files/'.$nama_file));
+        Excel::import(new MahasiswaImport, public_path('/files/'.$nama_file));
+ 
+		return redirect('admin/proposal/plotting')->with(['success' => 'Berhasil']);
+	}
 
 
     //Proposal Monitoring
