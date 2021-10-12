@@ -63,10 +63,26 @@ Route::middleware(['auth'])->group(function () {
  
     Route::group(['middleware' => 'dosen'], function () {
         Route::get('/dosen', 'DosenController@index')->name('dosen');
+
+        //Proposal Mahasiswa
+        Route::get('/dosen/monitoring/proposal', 'DosenController@viewProposalMahasiswa')->name('dataproposalmahasiswa');
+
+        //Skripsi Mahasiswa
+        Route::get('/dosen/monitoring/skripsi', 'DosenController@viewSkripsiMahasiswa')->name('dataksripsimahasiswa');
     });
 
     Route::group(['middleware' => 'mahasiswa'], function () {
         Route::get('/mahasiswa', 'MahasiswaController@index')->name('mahasiswa');
+
+        //Profil
+        Route::get('/mahasiswa/edit/{id}', 'MahasiswaController@formEditProfil')->name('formeditprofil');
+        Route::put('/mahasiswa/{id}', 'MahasiswaController@updateProfil')->name('updateprofilmhs');
+
+        //Pengajuan Proposal
+        Route::get('/mahasiswa/proposal/pengajuan', 'MahasiswaController@viewPengajuanProposal')->name('datapengajuanproposal');
+        Route::get('/mahasiswa/proposal/tambah', 'MahasiswaController@formAddProposal')->name('formaddproposal');
+        Route::post('/mahasiswa/insertproposal', 'MahasiswaController@insertProposal')->name('insertproposal');
+        Route::get('/download/{id}', 'MahasiswaController@downloadProposal')->name('downloadproposal');
     });
  
     Route::get('/logout', function() {

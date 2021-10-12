@@ -14,6 +14,7 @@ use App\Imports\PlotDosbingImport;
 use App\Imports\UserImport;
 use App\Imports\MahasiswaImport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\ProposalModel;
 
 class AdminController extends Controller
 {
@@ -171,7 +172,13 @@ class AdminController extends Controller
     //Proposal Monitoring
     public function viewProposalMonitoring(){
         $user = Auth::user();
-        return view('admin.proposal.monitoring.read', compact('user'));
+        $data = DB::table('proposal')
+        ->join('mahasiswa', 'proposal.nim', '=', 'mahasiswa.nim')
+        ->join('plot_dosbing', 'proposal.id_plot_dosbing', '=', 'plot_dosbing.id')
+        ->select('proposal.id as id', 'proposal.nim as nim', 'mahasiswa.name as nama', 'proposal.judul as judul', 
+        'proposal.proposal as proposal',  'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2')
+        ->get();
+        return view('admin.proposal.monitoring.read', compact('data', 'user'));
     }
 
 

@@ -9,139 +9,97 @@
 
         </div>
 
+        @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button> 
+            <strong>{{ $message }}</strong>
+        </div>
+        @endif
+
+        @if ($message = Session::get('error'))
+        <div class="alert alert-danger alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button> 
+            <strong>{{ $message }}</strong>
+        </div>
+        @endif
+
         <!-- Content Row -->
-        {{-- <div class="row">
-
-            <div class="col-md-4">
-
-                <!-- Earnings (Monthly) Card Example -->
+        <div class="row">
+            <div class="col-md-12">
                 <div class="mb-4">
-                    <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card border-left-primary h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        Total Client</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                                    <div class="text-xs font-weight-bold text-secondary text-uppercase mb-2">
+                                        NIM</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800 mb-5">{{ $user -> no_induk }}</div>
+                                    <div class="text-xs font-weight-bold text-secondary text-uppercase mb-2">
+                                        Nama</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $user -> name }}</div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-user-circle fa-2x text-gray-300"></i>
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-secondary text-uppercase mb-2">
+                                        Email</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800 mb-5">{{ $mhs -> email  }}</div>
+                                    <div class="text-xs font-weight-bold text-secondary text-uppercase mb-2">
+                                        No. Hp/WA</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $mhs -> hp }}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
     
-                <!-- Pie Chart -->
-                <div>
-                    <div class="card shadow mb-4">
-                        <!-- Card Header - Dropdown -->
-                        <div
-                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Bandwidth Categories</h6>
-                        </div>
-                        <!-- Card Body -->
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <div class="card border-left-success h-100 py-2">
                         <div class="card-body">
-                            <div class="chart-pie pt-4 pb-2">
-                                <canvas id="myPieChart"></canvas>
-                            </div>
-                            <div class="mt-4 text-center small">
-                                <span class="mr-2">
-                                    <i class="fas fa-circle text-primary"></i> Direct
-                                </span>
-                                <span class="mr-2">
-                                    <i class="fas fa-circle text-success"></i> Social
-                                </span>
-                                <span class="mr-2">
-                                    <i class="fas fa-circle text-info"></i> Referral
-                                </span>
+                            <div class="row no-gutters align-items-center justify-content-center">
+                                <div class="col-auto">
+                                    <i class="fas fa-user-circle fa-5x text-gray-300"></i>
+                                </div>
+                                <div class="col mr-2 ml-4">
+                                    <div class="text-xs font-weight-bold text-secondary text-uppercase mb-2">
+                                        Dosen Pembimbing 1</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data -> dosbing1 }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+    
 
             </div>
-            
-            <div class="col-md-8">
 
-                <!-- Table -->
-                <div>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Latest Client</h6>
-                        </div>
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <div class="card border-left-warning h-100 py-2">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Address</th>
-                                            <th>Bandwidth</th>
-                                            <th>Opsi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>Edinburgh</td>
-                                            <td>2 Mbps</td>
-                                            <td><button class="btn btn-sm btn-primary">Details</button>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Tokyo</td>
-                                            <td>2 Mbps</td>
-                                            <td><button class="btn btn-sm btn-primary">Details</button>
-                                        </tr>
-                                        <tr>
-                                            <td>Ashton Cox</td>
-                                        
-                                            <td>San Francisco</td>
-                                            <td>2 Mbps</td>
-                                            <td><button class="btn btn-sm btn-primary">Details</button>
-                                        </tr>
-                                        <tr>
-                                            <td>Cedric Kelly</td>
-                                            <td>Edinburgh</td>
-                                            <td>2 Mbps</td>
-                                            <td><button class="btn btn-sm btn-primary">Details</button>
-                                        </tr>
-                                        <tr>
-                                            <td>Airi Satou</td>
-                                            <td>Tokyo</td>
-                                            <td>2 Mbps</td>
-                                            <td><button class="btn btn-sm btn-primary">Details</button>
-                                        </tr>
-                                        <tr>
-                                            <td>Ashton Cox</td>
-                                        
-                                            <td>San Francisco</td>
-                                            <td>2 Mbps</td>
-                                            <td><button class="btn btn-sm btn-primary">Details</button>
-                                        </tr>
-                                        <tr>
-                                            <td>Cedric Kelly</td>
-                                            <td>Edinburgh</td>
-                                            <td>2 Mbps</td>
-                                            <td><button class="btn btn-sm btn-primary">Details</button>
-                                        </tr>
-                                        <tr>
-                                            <td>Airi Satou</td>
-                                            <td>Tokyo</td>
-                                            <td>2 Mbps</td>
-                                            <td><button class="btn btn-sm btn-primary">Details</button>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <i class="fas fa-user-circle fa-5x text-gray-300"></i>
+                                </div>
+                                <div class="col mr-2 ml-4">
+                                    <div class="text-xs font-weight-bold text-secondary text-uppercase mb-2">
+                                        Dosen Pembimbing 2</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data -> dosbing2 }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+    
 
             </div>
 
-        </div> --}}
+        </div>
 
     </div>
 @endsection
