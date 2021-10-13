@@ -82,7 +82,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/mahasiswa/proposal/pengajuan', 'MahasiswaController@viewPengajuanProposal')->name('datapengajuanproposal');
         Route::get('/mahasiswa/proposal/tambah', 'MahasiswaController@formAddProposal')->name('formaddproposal');
         Route::post('/mahasiswa/insertproposal', 'MahasiswaController@insertProposal')->name('insertproposal');
-        Route::get('/download/{id}', 'MahasiswaController@downloadProposal')->name('downloadproposal');
+        Route::get('/download/proposal/{id}', 'MahasiswaController@downloadProposal')->name('downloadproposal');
+
+        //Pendaftaran Seminar
+        Route::get('/mahasiswa/proposal/daftarsempro', 'MahasiswaController@viewDaftarSempro')->name('datadaftarsempro');
+        Route::get('/mahasiswa/proposal/tambahsempro', 'MahasiswaController@formAddSempro')->name('formaddsempro');
+        Route::post('/mahasiswa/insertsempro', 'MahasiswaController@insertBerkas')->name('insertsempro');
+        Route::get('/download/berkassempro/{id}', 'MahasiswaController@downloadBerkasSempro')->name('downloadberkassempro');
     });
  
     Route::get('/logout', function() {

@@ -5,10 +5,10 @@
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Pengajuan Proposal</h1>
+            <h1 class="h3 mb-0 text-gray-800">Pendaftaran Seminar</h1>
             <div class="pull-right">
-                <a href="/mahasiswa/proposal/tambah" class="btn btn-success btn-flat">
-                    <i class="fa fa-plus"></i> Ajukan
+                <a href="/mahasiswa/proposal/tambahsempro" class="btn btn-success btn-flat">
+                    <i class="fa fa-plus"></i> Daftar
                 </a>
             </div>
         </div>
@@ -37,11 +37,11 @@
                                 <th>No.</th>
                                 <th>NIM</th>
                                 <th>Nama</th>
-                                <th>Topik</th>
+                                <th>No. HP/WA</th>
                                 <th>Judul</th>
-                                <th>Proposal</th>
                                 <th>Dosbing 1</th>
                                 <th>Dosbing 2</th>
+                                <th>Berkas Proposal</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,12 +50,12 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item -> nim }}</td>
-                                    <td>{{ $item -> name }}</td>
-                                    <td>{{ $item -> topik }}</td>
+                                    <td>{{ $item -> nama }}</td>
+                                    <td>{{ $item -> hp }}</td>
                                     <td>{{ $item -> judul }}</td>
-                                    <td><a href="/download/proposal/{{$item->proposal}}">{{$item->proposal}}</a></td>
-                                    <td>{{ $item -> ket1 }}</td>
-                                    <td>{{ $item -> ket2 }}</td>
+                                    <td>{{ $item -> dosbing1 }}</td>
+                                    <td>{{ $item -> dosbing2 }}</td>
+                                    <td><a href="/download/berkassempro/{{$item->berkas_sempro}}">{{$item->berkas_sempro}}</a></td>
                                 </tr>
                            @endforeach
                         </tbody>
