@@ -63,7 +63,6 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('datapengajuanproposal') }}">Pengajuan Proposal</a>
                         <a class="collapse-item" href="{{ route('datadaftarsempro') }}">Daftar Seminar</a>
-                        <a class="collapse-item" href="#">Jadwal Seminar</a>
                     </div>
                 </div>
             </li>
@@ -80,7 +79,6 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="#">Monitoring</a>
                         <a class="collapse-item" href="#">Daftar Ujian</a>
-                        <a class="collapse-item" href="#">Jadwal Ujian</a>
                     </div>
                 </div>
             </li>

@@ -1,16 +1,16 @@
-@extends('mahasiswa.main')
+@extends('admin.main')
 
 @section('content')
     <div class="container-fluid mt-4">
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Pendaftaran Seminar</h1>
-            <div class="pull-right">
-                <a href="/mahasiswa/proposal/tambahsempro" class="btn btn-success btn-flat" <?=$dataprop === null ? 'style="pointer-events: none;cursor: default; opacity: 0.7;"' : '' ?>>
-                    <i class="fa fa-plus"></i> Daftar
+            <h1 class="h3 mb-0 text-gray-800">Data Semester</h1>
+            {{-- <div class="pull-right">
+                <a href="/admin/mahasiswa/tambah" class="btn btn-success btn-flat">
+                    <i class="fa fa-plus"></i> Tambah Mahasiswa
                 </a>
-            </div>
+            </div> --}}
         </div>
 
         @if ($message = Session::get('success'))
@@ -35,14 +35,10 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>NIM</th>
-                                <th>Nama</th>
-                                <th>No. HP/WA</th>
-                                <th>Judul</th>
-                                <th>Dosbing 1</th>
-                                <th>Dosbing 2</th>
-                                <th>Berkas Proposal</th>
+                                <th>Semester</th>
+                                <th>Tahun</th>
                                 <th>Status</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,22 +46,20 @@
                               @foreach($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item -> nim }}</td>
-                                    <td>{{ $item -> nama }}</td>
-                                    <td>{{ $item -> hp }}</td>
-                                    <td>{{ $item -> judul }}</td>
-                                    <td>{{ $item -> dosbing1 }}</td>
-                                    <td>{{ $item -> dosbing2 }}</td>
-                                    <td><a href="/download/berkassempro/{{$item->berkas_sempro}}">{{$item->berkas_sempro}}</a></td>
-                                @endforeach
+                                    <td>{{ $item -> semester }}</td>
+                                    <td>{{ $item -> tahun }}</td>
                                     <td>
-                                        @if ($jadwal === null)
-                                            Menunggu Jadwal
+                                        @if ($item -> aktif == 'Y')
+                                            Aktif
                                         @else
-                                            <a href="{{ route('datajadwalsempro') }}" class="btn btn-sm btn-primary">Lihat Jadwal</a>
+                                            Tidak
                                         @endif
                                     </td>
+                                    <td>
+                                        <a href="/admin/semester/edit/{{$item->id}}" class="btn btn-primary btn-sm">Ganti Status</a>
+                                    </td>
                                 </tr>
+                           @endforeach
                         </tbody>
                     </table>
                 </div>

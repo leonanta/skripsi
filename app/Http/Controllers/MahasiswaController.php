@@ -101,7 +101,19 @@ class MahasiswaController extends Controller
         ->where('berkas_sempro.nim', $user->no_induk)
         ->where('proposal.ket1', 'ACC')->where('proposal.ket2', 'ACC')
         ->get();
-        return view('mahasiswa.proposal.pendaftaran.read', compact('data', 'user'));
+        $dataprop = ProposalModel::all()->where('nim', $user -> no_induk)->where('ket1', 'ACC')->where('ket2', 'ACC')->first();
+        $jadwal = DB::table('jadwal_sempro')
+        ->join('mahasiswa', 'jadwal_sempro.nim', '=', 'mahasiswa.nim')
+        ->join('berkas_sempro', 'jadwal_sempro.id_berkas_sempro', '=', 'berkas_sempro.id')
+        ->join('proposal', 'berkas_sempro.id_proposal', '=', 'proposal.id')
+        ->join('plot_dosbing', 'berkas_sempro.id_plot_dosbing', '=', 'plot_dosbing.id')
+        ->select('jadwal_sempro.id as id', 'jadwal_sempro.nim as nim', 'mahasiswa.name as nama', 'berkas_sempro.id as id_berkas_sempro', 'proposal.judul as judul', 
+        'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2' ,'jadwal_sempro.tanggal as tanggal',
+        'jadwal_sempro.jam as jam', 'jadwal_sempro.tempat as tempat', 'jadwal_sempro.ket as ket')
+        ->where('jadwal_sempro.nim', $user->no_induk)
+        ->first();
+        // dd($jadwal);
+        return view('mahasiswa.proposal.pendaftaran.read', compact('data', 'dataprop', 'jadwal', 'user'));
     }
     public function formAddSempro(){
         $user = Auth::user();
@@ -134,5 +146,23 @@ class MahasiswaController extends Controller
     {
         $filepath = public_path('berkas_sempro/'.$id);
         return Response::download($filepath); 
+    }
+
+
+    //Jadwal Sempro
+    public function viewJadwalSempro(){
+        $user = Auth::user();
+        $data = DB::table('jadwal_sempro')
+        ->join('mahasiswa', 'jadwal_sempro.nim', '=', 'mahasiswa.nim')
+        ->join('berkas_sempro', 'jadwal_sempro.id_berkas_sempro', '=', 'berkas_sempro.id')
+        ->join('proposal', 'berkas_sempro.id_proposal', '=', 'proposal.id')
+        ->join('plot_dosbing', 'berkas_sempro.id_plot_dosbing', '=', 'plot_dosbing.id')
+        ->select('jadwal_sempro.id as id', 'jadwal_sempro.nim as nim', 'mahasiswa.name as nama', 'berkas_sempro.id as id_berkas_sempro', 'proposal.judul as judul', 
+        'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2' ,'jadwal_sempro.tanggal as tanggal',
+        'jadwal_sempro.jam as jam', 'jadwal_sempro.tempat as tempat', 'jadwal_sempro.ket as ket')
+        ->where('jadwal_sempro.nim', $user->no_induk)
+        ->get();
+        // dd($data);
+        return view('mahasiswa.proposal.penjadwalan.read', compact('data', 'user'));
     }
 }

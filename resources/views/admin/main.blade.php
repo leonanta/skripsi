@@ -53,8 +53,8 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item {{  Request::is('admin/semester') ? 'active' : ''}}">
+                <a class="nav-link" href="{{ route('datasemester') }}">
                     <i class="fas fa-fw fa-graduation-cap"></i>
                     <span>Semester</span></a>
             </li>

@@ -15,6 +15,7 @@ use App\Imports\UserImport;
 use App\Imports\MahasiswaImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\ProposalModel;
+use App\SemesterModel;
 
 class AdminController extends Controller
 {
@@ -24,6 +25,43 @@ class AdminController extends Controller
         $user = Auth::user();
         return view('admin.index', compact('user'));
     }
+
+
+    //Semester
+    public function viewSemester(){
+        $user = Auth::user();
+        $data = DB::table('semester')
+                ->where('aktif', 'Y')->get();
+        return view('admin.semester.read', compact('data', 'user'));
+    }
+    public function formEditSemester($id){
+        $user = Auth::user();
+        $data = DB::table('semester')
+                ->where('id', $id)->first();
+        return view ('admin.semester.edit',  compact('data', 'user'));
+    }
+    public function updateSemester(Request $request, $id){
+        $semester = $request->semester;
+        $tahun = $request->tahun;
+        
+        $data = DB::table('semester')
+        ->where('id', $id)
+        ->update(
+        ['aktif' => 'N']
+        );
+
+        $sModel = new SemesterModel;
+
+        $sModel->semester = $request->semester;
+        $sModel->tahun = $request->tahun;
+        $sModel->aktif = 'Y';
+
+        $sModel->save();
+
+        return redirect('admin/semester')->with(['success' => 'Berhasil']);
+    }
+    //End Semester
+
 
     //Dosen
     public function viewDosen(){
@@ -78,6 +116,7 @@ class AdminController extends Controller
         return back()->with(['success' => 'Berhasil']);
     }
     //End Dosen
+
 
     //Mahasiswa
     public function viewMahasiswa(){

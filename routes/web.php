@@ -30,6 +30,11 @@ Route::middleware(['auth'])->group(function () {
         //Dashboard
         Route::get('/admin', 'AdminController@index')->name('admin');
 
+        //Semester
+        Route::get('/admin/semester', 'AdminController@viewSemester')->name('datasemester');
+        Route::get('/admin/semester/edit/{id}', 'AdminController@formEditSemester')->name('formeditsemester');
+        Route::put('/admin/semester/{id}', 'AdminController@updateSemester')->name('updatesemester');
+
         //Dosen
         Route::get('/admin/dosen', 'AdminController@viewDosen')->name('datadosen');
         Route::get('/admin/dosen/tambah', 'AdminController@formAddDosen')->name('formadddosen');
@@ -89,6 +94,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/mahasiswa/proposal/tambahsempro', 'MahasiswaController@formAddSempro')->name('formaddsempro');
         Route::post('/mahasiswa/insertsempro', 'MahasiswaController@insertBerkas')->name('insertsempro');
         Route::get('/download/berkassempro/{id}', 'MahasiswaController@downloadBerkasSempro')->name('downloadberkassempro');
+
+        //Penjadwalan Seminar
+        Route::get('/mahasiswa/proposal/jadwalsempro', 'MahasiswaController@viewJadwalSempro')->name('datajadwalsempro');
     });
  
     Route::get('/logout', function() {
