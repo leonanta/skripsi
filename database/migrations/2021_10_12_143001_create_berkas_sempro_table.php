@@ -22,6 +22,7 @@ class CreateBerkasSemproTable extends Migration
             $table->unsignedBigInteger('id_plot_dosbing');
             $table->foreign('id_plot_dosbing')->references('id')->on('plot_dosbing');
             $table->string('berkas');
+            $table->string('status');
             $table->timestamps();
         });
     }

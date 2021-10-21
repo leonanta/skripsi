@@ -23,6 +23,7 @@ class CreateJadwalSemproTable extends Migration
             $table->time('jam');
             $table->string('tempat');
             $table->string('ket');
+            $table->string('status');
             $table->timestamps();
         });
     }

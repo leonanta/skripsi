@@ -22,6 +22,12 @@
     {{-- Datatables --}}
     <link href="{{  url('sbadmin2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
+    {{-- Date Picker --}}
+    <link href="{{  url('sbadmin2/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+
+    {{-- Time Picker --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+
 </head>
 
 <body id="page-top">
@@ -84,7 +90,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('dataproposalplotting') }}">Plot Dosen Pembimbing</a>
                         <a class="collapse-item" href="{{ route('dataproposalmonitoring') }}">Monitoring</a>
-                        <a class="collapse-item" href="#">Penjadwalan</a>
+                        <a class="collapse-item" href="{{ route('dataproposalpendaftar') }}">Pendaftar Seminar</a>
+                        <a class="collapse-item" href="{{ route('dataproposalpenjadwalan') }}">Jadwal Seminar</a>
                     </div>
                 </div>
             </li>
@@ -270,15 +277,28 @@
 <script src="{{  url('sbadmin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{  url('sbadmin2/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
+{{-- Date Picker --}}
+<script src="{{  url('sbadmin2/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+
+{{-- Time Picker --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
 <script>
     $(document).ready(function() {
-    $('#dataTable').DataTable({
-      'paging'      : true,
-      'searching'   : true,
-      'ordering'    : true,
-      'autoWidth'   : true
+        $('#dataTable').DataTable({
+        'paging'      : true,
+        'searching'   : true,
+        'ordering'    : true,
+        'autoWidth'   : true
+        });
     });
-} );
+
+    $('#datepicker').datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+    });
+
 </script>
 
 </html>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 use App\DosenModel;
 use App\MahasiswaModel;
@@ -16,6 +17,8 @@ use App\Imports\MahasiswaImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\ProposalModel;
 use App\SemesterModel;
+use App\BerkasSemproModel;
+use App\JadwalSemproModel;
 
 class AdminController extends Controller
 {
@@ -221,9 +224,81 @@ class AdminController extends Controller
     }
 
 
-    //Proposal Penjadwalan
+    //Proposal Data Pendaftar
+    public function viewProposalPendaftar(){
+        $user = Auth::user();
+        $data = DB::table('berkas_sempro')
+        ->join('mahasiswa', 'berkas_sempro.nim', '=', 'mahasiswa.nim')
+        ->select('berkas_sempro.id as id', 'berkas_sempro.nim as nim', 'mahasiswa.name as nama', 'berkas_sempro.berkas_sempro as berkas_sempro')
+        ->where('berkas_sempro.status', 'Menunggu')
+        ->get();
+        return view('admin.proposal.pendaftar.read', compact('data', 'user'));
+    }
+
+    public function viewProposalPendaftarDetail($id){
+        $user = Auth::user();
+        $data = DB::table('berkas_sempro')
+        ->join('mahasiswa', 'berkas_sempro.nim', '=', 'mahasiswa.nim')
+        ->join('plot_dosbing', 'berkas_sempro.id_plot_dosbing', '=', 'plot_dosbing.id')
+        ->join('proposal', 'berkas_sempro.id_proposal', '=', 'proposal.id')
+        ->select('berkas_sempro.id as id', 'berkas_sempro.nim as nim', 'mahasiswa.name as nama', 'mahasiswa.hp as hp', 'proposal.judul as judul', 
+        'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2' ,'berkas_sempro.berkas_sempro as berkas_sempro', 'berkas_sempro.created_at as tgl_daftar')
+        ->where('berkas_sempro.id', $id)
+        ->get();
+        return view('admin.proposal.pendaftar.detail', compact('data', 'user'));
+    }
+
+    public function insertJadwalSempro(Request $request){
+        $jsModel = new JadwalSemproModel;
+
+        $jsModel->nim = $request->nim;
+        $jsModel->id_berkas_sempro = $request->id_berkas_sempro;
+        $jsModel->tanggal = $request->tanggal;
+        $jsModel->jam = $request->jam;
+        $jsModel->tempat = $request->tempat;
+        $jsModel->ket = $request->ket;
+        $jsModel->created_at = Carbon::now();
+        $jsModel->updated_at = Carbon::now();
+
+        $jsModel->save();
+
+        $data = DB::table('berkas_sempro')
+        ->where('nim', $request->nim)
+        ->update(
+        ['status' => 'Terjadwal']
+        );
+
+        return redirect('admin/proposal/pendaftar')->with(['success' => 'Berhasil']);
+    }
+
+
+    //Proposal Data Penjadwalan
     public function viewProposalPenjadwalan(){
         $user = Auth::user();
-        return view('admin.proposal.penjadwalan.read', compact('user'));
+        $data = DB::table('jadwal_sempro')
+        ->join('mahasiswa', 'jadwal_sempro.nim', '=', 'mahasiswa.nim')
+        ->join('berkas_sempro', 'jadwal_sempro.id_berkas_sempro', '=', 'berkas_sempro.id')
+        ->join('proposal', 'berkas_sempro.id_proposal', '=', 'proposal.id')
+        ->join('plot_dosbing', 'berkas_sempro.id_plot_dosbing', '=', 'plot_dosbing.id')
+        ->select('jadwal_sempro.id as id', 'jadwal_sempro.nim as nim', 'mahasiswa.name as nama', 'berkas_sempro.id as id_berkas_sempro', 'proposal.judul as judul', 
+        'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2' ,'jadwal_sempro.tanggal as tanggal',
+        'jadwal_sempro.jam as jam', 'jadwal_sempro.tempat as tempat', 'jadwal_sempro.ket as ket', 'jadwal_sempro.status as status')
+        ->get();
+        return view('admin.proposal.penjadwalan.read', compact('data', 'user'));
+    }
+
+    public function viewDetailJadwalSempro($id){
+        $user = Auth::user();
+        $data = DB::table('jadwal_sempro')
+        ->join('mahasiswa', 'jadwal_sempro.nim', '=', 'mahasiswa.nim')
+        ->join('berkas_sempro', 'jadwal_sempro.id_berkas_sempro', '=', 'berkas_sempro.id')
+        ->join('proposal', 'berkas_sempro.id_proposal', '=', 'proposal.id')
+        ->join('plot_dosbing', 'berkas_sempro.id_plot_dosbing', '=', 'plot_dosbing.id')
+        ->select('jadwal_sempro.id as id', 'jadwal_sempro.nim as nim', 'mahasiswa.name as nama', 'berkas_sempro.id as id_berkas_sempro', 'proposal.judul as judul', 
+        'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2' ,'jadwal_sempro.tanggal as tanggal',
+        'jadwal_sempro.jam as jam', 'jadwal_sempro.tempat as tempat', 'jadwal_sempro.ket as ket')
+        ->where('jadwal_sempro.id', $id)
+        ->get();
+        return view('admin.proposal.penjadwalan.detail', compact('data', 'user'));
     }
 }

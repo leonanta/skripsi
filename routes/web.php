@@ -60,9 +60,14 @@ Route::middleware(['auth'])->group(function () {
         //Proposal Monitoring
         Route::get('/admin/proposal/monitoring', 'AdminController@viewProposalMonitoring')->name('dataproposalmonitoring');
 
+        //Proposal Pendaftar
+        Route::get('/admin/proposal/pendaftar', 'AdminController@viewProposalPendaftar')->name('dataproposalpendaftar');
+        Route::get('/admin/proposal/pendaftar/detail/{id}', 'AdminController@viewProposalPendaftarDetail')->name('dataproposalpendaftardetail');
+        Route::post('/admin/proposal/insertjadwalsempro', 'AdminController@insertJadwalSempro')->name('insertjadwalsempro');
+
         //Proposal Penjadwalan
         Route::get('/admin/proposal/penjadwalan', 'AdminController@viewProposalPenjadwalan')->name('dataproposalpenjadwalan');
-
+        Route::get('/admin/proposal/penjadwalan/detail/{id}', 'AdminController@viewDetailJadwalSempro')->name('datadetailjadwalsempro');
         
     });
  
