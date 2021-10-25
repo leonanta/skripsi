@@ -25,7 +25,8 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
  
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
- 
+
+    //ADMIN
     Route::group(['middleware' => 'admin'], function () {
         //Dashboard
         Route::get('/admin', 'AdminController@index')->name('admin');
@@ -71,16 +72,29 @@ Route::middleware(['auth'])->group(function () {
         
     });
  
+    //DOSEN
     Route::group(['middleware' => 'dosen'], function () {
         Route::get('/dosen', 'DosenController@index')->name('dosen');
 
-        //Proposal Mahasiswa
+        //Monitoring Proposal Mahasiswa
         Route::get('/dosen/monitoring/proposal', 'DosenController@viewProposalMahasiswa')->name('dataproposalmahasiswa');
+        Route::get('/dosen/monitoring/proposal/{id}', 'DosenController@viewProposalMahasiswaFilter')->name('dataproposalmahasiswafilter');
+        //Aksi
+        Route::put('/dosen/monitoring/proposal/acc/{id}', 'DosenController@accProposalMhs')->name('dosenaccproposal');
+        Route::put('/dosen/monitoring/proposal/tolak/{id}', 'DosenController@tolakProposalMhs')->name('dosentolakproposal');
+        Route::put('/dosen/monitoring/proposal/revisi/{id}', 'DosenController@revisiProposalMhs')->name('dosenrevisiproposal');
 
-        //Skripsi Mahasiswa
+        //Monitoring Skripsi Mahasiswa
         Route::get('/dosen/monitoring/skripsi', 'DosenController@viewSkripsiMahasiswa')->name('dataksripsimahasiswa');
+
+        //Seminar Proposal
+        //Jadwal Seminar
+        Route::get('/dosen/sempro/jadwal', 'DosenController@viewJadwalSempro')->name('datajadwalsemprodosen');
+
+
     });
 
+    //MAHASISWA
     Route::group(['middleware' => 'mahasiswa'], function () {
         Route::get('/mahasiswa', 'MahasiswaController@index')->name('mahasiswa');
 

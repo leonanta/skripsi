@@ -1,16 +1,16 @@
-@extends('mahasiswa.main')
+@extends('dosen.main')
 
 @section('content')
     <div class="container-fluid mt-4">
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Pendaftaran Seminar</h1>
-            <div class="pull-right">
-                <a href="/mahasiswa/proposal/tambahsempro" class="btn btn-success btn-flat" <?=$dataprop === null ? 'style="pointer-events: none;cursor: default; opacity: 0.7;"' : '' ?>>
-                    <i class="fa fa-plus"></i> Daftar
+            <h1 class="h3 mb-0 text-gray-800">Jadwal Seminar Proposal</h1>
+            {{-- <div class="pull-right">
+                <a href="/mahasiswa/proposal/tambah" class="btn btn-success btn-flat">
+                    <i class="fa fa-plus"></i> Ajukan
                 </a>
-            </div>
+            </div> --}}
         </div>
 
         @if ($message = Session::get('success'))
@@ -37,12 +37,11 @@
                                 <th>No.</th>
                                 <th>NIM</th>
                                 <th>Nama</th>
-                                <th>No. HP/WA</th>
                                 <th>Judul</th>
-                                <th>Dosbing 1</th>
-                                <th>Dosbing 2</th>
-                                <th>Berkas</th>
+                                <th>Proposal</th>
+                                <th>Tanggal</th>
                                 <th>Status</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,22 +49,21 @@
                               @foreach($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item -> nim }}</td>
-                                    <td>{{ $item -> nama }}</td>
-                                    <td>{{ $item -> hp }}</td>
-                                    <td>{{ $item -> judul }}</td>
-                                    <td>{{ $item -> dosbing1 }}</td>
-                                    <td>{{ $item -> dosbing2 }}</td>
-                                    <td><a href="/download/berkassempro/{{$item->berkas_sempro}}">{{$item->berkas_sempro}}</a></td>
+                                    <td>{{ $item -> nim}}</td>
+                                    <td>{{ $item -> nama}}</td>
+                                    <td>{{ $item -> judul}}</td>
+                                    <td><a href="/download/proposal/{{$item->proposal}}">{{$item->proposal}}</a></td>
+                                    <td>{{ tgl_indo($item->tanggal, true)}}</td>
                                     <td>
-                                        @if ($jadwal === null)
-                                            {{ $item -> status }}
+                                        @if ($item -> status == 'Belum')
+                                            Belum melakukan seminar
                                         @else
-                                            <a href="{{ route('datajadwalsempro') }}" class="btn btn-sm btn-primary">Lihat Jadwal</a>
+                                            Sudah seminar
                                         @endif
                                     </td>
+                                    <td><a href="/admin/proposal/penjadwalan/detail/{{$item->id}}" class="btn btn-primary">Detail/Update Hasil?</td>
                                 </tr>
-                                @endforeach
+                           @endforeach
                         </tbody>
                     </table>
                 </div>

@@ -54,8 +54,8 @@
                                     <td>{{ $item -> topik }}</td>
                                     <td>{{ $item -> judul }}</td>
                                     <td><a href="/download/proposal/{{$item->proposal}}">{{$item->proposal}}</a></td>
-                                    <td>{{ $item -> ket1 }}</td>
-                                    <td>{{ $item -> ket2 }}</td>
+                                    <td>{{ $item -> ket1 }} - {{ $item -> komentar1 }}</td>
+                                    <td>{{ $item -> ket2 }} - {{ $item -> komentar2 }}</td>
                                 </tr>
                            @endforeach
                         </tbody>

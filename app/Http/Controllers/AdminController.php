@@ -230,7 +230,7 @@ class AdminController extends Controller
         $data = DB::table('berkas_sempro')
         ->join('mahasiswa', 'berkas_sempro.nim', '=', 'mahasiswa.nim')
         ->select('berkas_sempro.id as id', 'berkas_sempro.nim as nim', 'mahasiswa.name as nama', 'berkas_sempro.berkas_sempro as berkas_sempro')
-        ->where('berkas_sempro.status', 'Menunggu')
+        ->where('berkas_sempro.status', 'Menunggu Dijadwalkan')
         ->get();
         return view('admin.proposal.pendaftar.read', compact('data', 'user'));
     }

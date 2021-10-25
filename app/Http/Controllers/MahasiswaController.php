@@ -10,6 +10,7 @@ use App\PlotDosbingModel;
 use App\MahasiswaModel;
 use App\ProposalModel;
 use App\BerkasSemproModel;
+use App\SemesterModel;
 
 class MahasiswaController extends Controller
 {
@@ -52,7 +53,7 @@ class MahasiswaController extends Controller
         $data = DB::table('proposal')
         ->join('mahasiswa', 'proposal.nim', '=', 'mahasiswa.nim')
         ->select('proposal.id as id', 'proposal.nim as nim', 'proposal.topik as topik', 'proposal.judul as judul', 'proposal.proposal as proposal',
-        'proposal.ket1 as ket1', 'proposal.ket2 as ket2', 'mahasiswa.name as name')
+        'proposal.ket1 as ket1', 'proposal.ket2 as ket2', 'proposal.komentar1 as komentar1', 'proposal.komentar2 as komentar2', 'mahasiswa.name as name')
         ->where('proposal.nim', $user->no_induk)
         ->get();
         return view('mahasiswa.proposal.pengajuan.read', compact('data', 'user'));
@@ -60,15 +61,18 @@ class MahasiswaController extends Controller
     public function formAddProposal(){
         $user = Auth::user();
         $data = PlotDosbingModel::all()->where('nim', $user -> no_induk)->first();
-        return view ('mahasiswa.proposal.pengajuan.add', compact('data', 'user'));
+        $smt = SemesterModel::all()->where('aktif', 'Y')->first();
+        return view ('mahasiswa.proposal.pengajuan.add', compact('data', 'smt', 'user'));
     }
     public function insertProposal(Request $request){
         $pModel = new ProposalModel;
 
+        $pModel->id_semester = $request->smt;
         $pModel->nim = $request->nim;
         $pModel->topik = $request->topik;
         $pModel->judul = $request->judul;
         $pModel->id_plot_dosbing = $request->id_plot_dosbing;
+        $pModel->komentar = $request->komentar;
 
 		$file = $request->file('proposal');
 
@@ -97,7 +101,7 @@ class MahasiswaController extends Controller
         ->join('plot_dosbing', 'berkas_sempro.id_plot_dosbing', '=', 'plot_dosbing.id')
         ->join('proposal', 'berkas_sempro.id_proposal', '=', 'proposal.id')
         ->select('berkas_sempro.id as id', 'berkas_sempro.nim as nim', 'mahasiswa.name as nama', 'mahasiswa.hp as hp', 'proposal.judul as judul', 
-        'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2' ,'berkas_sempro.berkas_sempro as berkas_sempro')
+        'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2' ,'berkas_sempro.berkas_sempro as berkas_sempro', 'berkas_sempro.status as status',)
         ->where('berkas_sempro.nim', $user->no_induk)
         ->where('proposal.ket1', 'ACC')->where('proposal.ket2', 'ACC')
         ->get();
@@ -157,7 +161,7 @@ class MahasiswaController extends Controller
         ->join('berkas_sempro', 'jadwal_sempro.id_berkas_sempro', '=', 'berkas_sempro.id')
         ->join('proposal', 'berkas_sempro.id_proposal', '=', 'proposal.id')
         ->join('plot_dosbing', 'berkas_sempro.id_plot_dosbing', '=', 'plot_dosbing.id')
-        ->select('jadwal_sempro.id as id', 'jadwal_sempro.nim as nim', 'mahasiswa.name as nama', 'berkas_sempro.id as id_berkas_sempro', 'proposal.judul as judul', 
+        ->select('jadwal_sempro.id as id', 'jadwal_sempro.nim as nim', 'mahasiswa.name as nama', 'berkas_sempro.id as id_berkas_sempro', 'berkas_sempro.status as status', 'proposal.judul as judul', 
         'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2' ,'jadwal_sempro.tanggal as tanggal',
         'jadwal_sempro.jam as jam', 'jadwal_sempro.tempat as tempat', 'jadwal_sempro.ket as ket')
         ->where('jadwal_sempro.nim', $user->no_induk)

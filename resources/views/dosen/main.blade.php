@@ -76,7 +76,7 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">Jadwal Seminar</a>
+                        <a class="collapse-item" href="{{ route('datajadwalsemprodosen') }}">Jadwal Seminar</a>
                         <a class="collapse-item" href="#">Hasil Seminar</a>
                     </div>
                 </div>
@@ -267,13 +267,104 @@
 
 <script>
     $(document).ready(function() {
-    $('#dataTable').DataTable({
-      'paging'      : true,
-      'searching'   : true,
-      'ordering'    : true,
-      'autoWidth'   : true
+        $('#dataTable').DataTable({
+        'paging'      : true,
+        'searching'   : true,
+        'ordering'    : true,
+        'autoWidth'   : true
+        });
     });
-} );
+
+    $(document).ready(function(){
+        $('#filterdosen').on('change', function(e){
+            var id = e.target.value;
+            $.get('{{ url('dosen/monitoring/proposal') }}/'+id, function(data){
+                // console.log(id);
+                // console.log(data);
+                $('#datatabel').empty();
+                $.each(data, function(index, element){
+                    var myIndex = index+1;
+                    var dosen = {!! json_encode($user->name) !!};
+                    // console.log(dosen);
+
+                    // if(element.dosbing1 ==  dosen){
+                    //     var komentar = `<td>${element.komentar1}</td>`
+                    // }else{
+                    //     var komentar = `<td>${element.komentar2}</td>`
+                    // }
+
+                    if(element.dosbing1 ==  dosen){
+                        var ket = `<td>${element.ket1}</td>`
+                    }else{
+                        var ket = `<td>${element.ket2}</td>`
+                    }
+
+                    // if(element.ket1 != 'Menunggu ACC' || element.ket2 != 'Menunggu ACC'){
+                    //     var disabled = `disabled`
+                    // }
+
+                    if(element.dosbing1 ==  dosen && element.ket1 != 'Menunggu ACC'){
+                        var disabled = `disabled`
+                    }else if(element.dosbing2 ==  dosen && element.ket2 != 'Menunggu ACC'){
+                        var disabled = `disabled`
+                    }
+
+                    $('#datatabel').append(`
+                        <tr>
+                            <td>${myIndex}</td>
+                            <td>${element.semester} ${element.tahun}</td>
+                            <td>${element.nim}</td>
+                            <td>${element.nama}</td>
+                            <td>${element.judul}</td>
+                            <td><a href="/download/${element.proposal}">${element.proposal}</a></td>
+                            <td>${element.komentar}</td>
+                            ${ket}
+                            <td>
+                                <form action="/dosen/monitoring/proposal/acc/${element.id}" method="post">
+                                    {{csrf_field()}}
+                                    {{method_field('PUT')}}
+                                    <button type="submit" value="acc" class="btn btn-success btn-sm mb-1" ${disabled}>ACC</button>
+                                </form>
+                                <form action="/dosen/monitoring/proposal/tolak/${element.id}" method="post">
+                                    {{csrf_field()}}
+                                    {{method_field('PUT')}}
+                                    <button type="submit" value="tolak" class="btn btn-danger btn-sm mb-1" ${disabled}>Tolak</button>
+                                </form>
+                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal${element.id}" ${disabled}>
+                                    Revisi
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="modal${element.id}" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Komentar Revisi</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <form action="/dosen/monitoring/proposal/revisi/${element.id}" method="post" id="form${element.id}">
+                                            {{csrf_field()}}
+                                            {{method_field('PUT')}}
+                                            <div class="modal-body">
+                                                <textarea class="form-control" name="komentar" placeholder="Masukkan Komentar"></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary" form="form${element.id}">Kirim</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        `)
+                    
+                });
+            });
+        });
+    });
 </script>
 
 </html>

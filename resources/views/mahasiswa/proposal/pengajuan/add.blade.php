@@ -13,8 +13,9 @@
                 {{csrf_field()}}
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="" class="small">NIM*</label>
-                        <input type="text" class="form-control" name="nim" placeholder="Masukkan NIM" value="{{ $user->no_induk }}" required readonly>
+                        <label for="" class="small">Semester*</label>
+                        <input type="text" class="form-control" name="semester" placeholder="Masukkan Semester" value="{{ $smt->semester }} {{ $smt->tahun }}" required readonly>
+                        <input type="hidden" value="{{ $smt->id }}" name="smt">
                     </div>
                     <div class="form-group">
                         <label for="" class="small">Topik*</label>
@@ -33,6 +34,10 @@
                         <label for="" class="small">Proposal*</label><br>
                         <input type="file" name="proposal" placeholder="Masukkan Berkas Proposal" required>
                     </div>
+                    <div class="form-group">
+                        <label for="" class="small">Keterangan(Optional)</label><br>
+                        <textarea class="form-control" name="keterangan" placeholder="Masukkan Keterangan"></textarea>
+                    </div>
                     <div class="form-group mt-4">
                         <button type="submit" class="btn btn-primary mr-2">
                             Simpan
@@ -41,6 +46,10 @@
                     </div>
                 </div>
                 <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="" class="small">NIM*</label>
+                        <input type="text" class="form-control" name="nim" placeholder="Masukkan NIM" value="{{ $user->no_induk }}" required readonly>
+                    </div>
                     <div class="form-group">
                         <label for="" class="small">Nama Lengkap*</label>
                         <input type="text" class="form-control" name="name" placeholder="Masukkan Nama Lengkap" value="{{ $user->name }}" required readonly>

@@ -1,10 +1,10 @@
-@extends('mahasiswa.main')
+@extends('dosen.main')
 
 @section('content')
     <div class="container-fluid mt-4">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-2 text-gray-800">Jadwal Seminar</h1>
+            <h1 class="h3 mb-2 text-gray-800">Detail Jadwal Seminar</h1>
         </div>
 
         {{-- Form --}}
@@ -41,7 +41,7 @@
                     </tbody>
                   </table>
                 <div class="ml-2 mt-4">
-                    <a href="{{ route('datadaftarsempro')}}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ route('dataproposalpenjadwalan')}}" class="btn btn-secondary">Kembali</a>
                 </div>
             </div>
             <div class="col-md-6">
@@ -50,7 +50,43 @@
                       <tr>
                         <td>Hari/Tanggal</td>
                         <td>:</td>
-                        <th>{{ tgl_indo($item->tanggal, true)}}</th>
+                        <th>
+                          <?php
+                            function tgl_indo($tanggal, $cetak_hari = false){
+                              $hari = array ( 1 =>    'Senin',
+                                    'Selasa',
+                                    'Rabu',
+                                    'Kamis',
+                                    'Jumat',
+                                    'Sabtu',
+                                    'Minggu'
+                                  );
+                                  
+                              $bulan = array (1 =>   'Januari',
+                                    'Februari',
+                                    'Maret',
+                                    'April',
+                                    'Mei',
+                                    'Juni',
+                                    'Juli',
+                                    'Agustus',
+                                    'September',
+                                    'Oktober',
+                                    'November',
+                                    'Desember'
+                                  );
+                              $split 	  = explode('-', $tanggal);
+                              $tgl_indo = $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
+                              
+                              if ($cetak_hari) {
+                                $num = date('N', strtotime($tanggal));
+                                return $hari[$num] . ', ' . $tgl_indo;
+                              }
+                              return $tgl_indo;
+                            }
+                            echo tgl_indo($item->tanggal, true);
+                          ?>
+                        </th>
                       </tr>
                       <tr>
                         <td>Jam</td>
