@@ -1,11 +1,11 @@
-@extends('dosen.main')
+@extends('mahasiswa.main')
 
 @section('content')
     <div class="container-fluid mt-4">
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Jadwal Seminar Proposal</h1>
+            <h1 class="h3 mb-0 text-gray-800">Hasil Seminar Proposal</h1>
             {{-- <div class="pull-right">
                 <a href="/mahasiswa/proposal/tambah" class="btn btn-success btn-flat">
                     <i class="fa fa-plus"></i> Ajukan
@@ -38,10 +38,8 @@
                                 <th>NIM</th>
                                 <th>Nama</th>
                                 <th>Judul</th>
-                                <th>Proposal</th>
-                                <th>Tanggal</th>
                                 <th>Status</th>
-                                <th>Opsi</th>
+                                <th>Nilai</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,16 +50,8 @@
                                     <td>{{ $item -> nim}}</td>
                                     <td>{{ $item -> nama}}</td>
                                     <td>{{ $item -> judul}}</td>
-                                    <td><a href="/download/proposal/{{$item->proposal}}">{{$item->proposal}}</a></td>
-                                    <td>{{ tgl_indo($item->tanggal, true)}}</td>
-                                    <td>
-                                        @if ($item -> status == 'Belum')
-                                            Belum melakukan seminar
-                                        @else
-                                            Sudah seminar
-                                        @endif
-                                    </td>
-                                    <td><a href="/admin/proposal/penjadwalan/detail/{{$item->id}}" class="btn btn-primary">Detail/Update Hasil?</td>
+                                    <td>{{ $item -> status }}</td>
+                                    <td>{{ $item -> nilai }}</td>
                                 </tr>
                            @endforeach
                         </tbody>

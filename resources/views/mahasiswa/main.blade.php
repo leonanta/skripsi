@@ -63,6 +63,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('datapengajuanproposal') }}">Pengajuan Proposal</a>
                         <a class="collapse-item" href="{{ route('datadaftarsempro') }}">Daftar Seminar</a>
+                        <a class="collapse-item" href="{{ route('datahasilsempromhs') }}">Hasil Seminar</a>
                     </div>
                 </div>
             </li>
@@ -77,7 +78,7 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">Monitoring</a>
+                        <a class="collapse-item" href="#">Bimbingan</a>
                         <a class="collapse-item" href="#">Daftar Ujian</a>
                     </div>
                 </div>
@@ -152,7 +153,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="/mahasiswa/edit/{{$user->no_induk}}">
+                                <a class="dropdown-item" href="/mahasiswa/edit">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
                                 </a>

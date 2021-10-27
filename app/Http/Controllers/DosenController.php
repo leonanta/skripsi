@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\DB;
+use App\HasilSemproModel;
 
 class DosenController extends Controller
 {
@@ -116,12 +117,12 @@ class DosenController extends Controller
             $data = DB::table('proposal')
             ->where('id', $id)
             ->update(
-            ['ket1' => 'ACC']);
+            ['ket1' => 'Disetujui']);
         }else if(($dosen2->dosbing2) == $dosen){
             $data = DB::table('proposal')
             ->where('id', $id)
             ->update(
-            ['ket2' => 'ACC']);
+            ['ket2' => 'Disetujui']);
         }
 
         return redirect('dosen/monitoring/proposal')->with(['success' => 'Berhasil']);
@@ -204,12 +205,59 @@ class DosenController extends Controller
         ->join('berkas_sempro', 'jadwal_sempro.id_berkas_sempro', '=', 'berkas_sempro.id')
         ->join('proposal', 'berkas_sempro.id_proposal', '=', 'proposal.id')
         ->join('plot_dosbing', 'berkas_sempro.id_plot_dosbing', '=', 'plot_dosbing.id')
-        ->select('jadwal_sempro.id as id', 'jadwal_sempro.nim as nim', 'mahasiswa.name as nama', 'berkas_sempro.id as id_berkas_sempro', 'proposal.judul as judul', 'proposal.proposal as proposal', 
+        ->select('jadwal_sempro.id as id', 'jadwal_sempro.nim as nim', 'mahasiswa.name as nama', 'berkas_sempro.id as id_berkas_sempro',  'proposal.id as id_proposal', 'proposal.judul as judul', 'proposal.proposal as proposal', 
         'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2' ,'jadwal_sempro.tanggal as tanggal',
         'jadwal_sempro.jam as jam', 'jadwal_sempro.tempat as tempat', 'jadwal_sempro.ket as ket', 'jadwal_sempro.status as status')
-        ->where('plot_dosbing.dosbing1', $user->name)
-        ->orWhere('plot_dosbing.dosbing2', $user->name)
+        ->where(function ($query) {
+                $user = Auth::user();
+                $dosen = $user -> name;
+                $query ->where('plot_dosbing.dosbing1', $dosen)
+                       ->orWhere('plot_dosbing.dosbing2', $dosen);
+            })
+        ->where('jadwal_sempro.status', 'Belum')
         ->get();
-        return view('dosen.sempro.read', compact('data', 'user'));
+        return view('dosen.sempro.readjadwal', compact('data', 'user'));
+    }
+
+    //Hasil Seminar
+    public function viewHasilSempro(){
+        $user = Auth::user();
+        $data = DB::table('hasil_sempro')
+        ->join('mahasiswa', 'hasil_sempro.nim', '=', 'mahasiswa.nim')
+        ->join('proposal', 'hasil_sempro.id_proposal', '=', 'proposal.id')
+        ->join('jadwal_sempro', 'hasil_sempro.id_jadwal_sempro', '=', 'jadwal_sempro.id')
+        ->join('plot_dosbing', 'proposal.id_plot_dosbing', '=', 'plot_dosbing.id')
+        ->select('hasil_sempro.id as id', 'hasil_sempro.nim as nim', 'mahasiswa.name as nama', 'proposal.judul as judul',
+        'jadwal_sempro.tanggal as tanggal', 'jadwal_sempro.jam as jam', 'jadwal_sempro.tempat as tempat', 'jadwal_sempro.ket as ket', 'hasil_sempro.status as status', 'hasil_sempro.nilai as nilai')
+        ->where(function ($query) {
+                $user = Auth::user();
+                $dosen = $user -> name;
+                $query ->where('plot_dosbing.dosbing1', $dosen)
+                       ->orWhere('plot_dosbing.dosbing2', $dosen);
+            })
+        ->get();
+        return view('dosen.sempro.readhasil', compact('data', 'user'));
+    }
+
+    public function insertHasilSempro(Request $request){
+        $hsModel = new HasilSemproModel;
+
+        $hsModel->nim = $request->nim;
+        $hsModel->id_proposal = $request->id_proposal;
+        $hsModel->id_jadwal_sempro = $request->id_jadwal_sempro;
+        $hsModel->status = $request->status;
+        $hsModel->nilai = $request->nilai;
+
+        $hsModel->save();
+
+        $id = $request->id_jadwal_sempro;
+        
+        $data = DB::table('jadwal_sempro')
+        ->where('id', $id)
+        ->update(
+        ['status' => 'Sudah',]
+        );
+
+        return redirect('dosen/sempro/jadwal')->with(['success' => 'Berhasil']);
     }
 }

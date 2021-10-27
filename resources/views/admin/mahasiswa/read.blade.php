@@ -27,6 +27,13 @@
         </div>
         @endif
 
+        @if (session('status'))
+        <div class="alert alert-success alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button> 
+            <strong>{{ session('status') }}</strong>
+        </div>
+    @endif
+
         <!-- Content Row -->
         <div class="card shadow">
             <div class="card-body">
@@ -41,6 +48,7 @@
                                 <th>No. Hp/WA</th>
                                 <th>Edit</th>
                                 <th>Hapus</th>
+                                <th>Reset</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,7 +70,43 @@
                                         <button type="submit" value="delete" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
                                         </form>
                                     </td>
-                                    
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal{{$item->id}}">
+                                            Reset
+                                        </button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal{{$item->id}}" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                </div>
+                                                <form class="user" method="POST" action="{{ route('password.email') }}">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="" class="small">Email*</label>
+                                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Masukkan Email">
+
+                                                            @error('email')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" name="submit" class="btn btn-primary">Reset</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                            @endforeach
                         </tbody>

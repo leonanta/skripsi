@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         <label for="" class="small">Keterangan(Optional)</label><br>
-                        <textarea class="form-control" name="keterangan" placeholder="Masukkan Keterangan"></textarea>
+                        <textarea class="form-control" name="komentar" placeholder="Masukkan Keterangan"></textarea>
                     </div>
                     <div class="form-group mt-4">
                         <button type="submit" class="btn btn-primary mr-2">

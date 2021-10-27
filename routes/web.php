@@ -91,6 +91,10 @@ Route::middleware(['auth'])->group(function () {
         //Jadwal Seminar
         Route::get('/dosen/sempro/jadwal', 'DosenController@viewJadwalSempro')->name('datajadwalsemprodosen');
 
+        //Hasil Seminar
+        Route::post('/dosen/sempro/inserthasil', 'DosenController@insertHasilSempro')->name('inserthasilsempro');
+        Route::get('/dosen/sempro/hasil', 'DosenController@viewHasilSempro')->name('datahasilsemprodosen');
+
 
     });
 
@@ -99,7 +103,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/mahasiswa', 'MahasiswaController@index')->name('mahasiswa');
 
         //Profil
-        Route::get('/mahasiswa/edit/{id}', 'MahasiswaController@formEditProfil')->name('formeditprofil');
+        Route::get('/mahasiswa/edit', 'MahasiswaController@formEditProfil')->name('formeditprofil');
         Route::put('/mahasiswa/{id}', 'MahasiswaController@updateProfil')->name('updateprofilmhs');
 
         //Pengajuan Proposal
@@ -116,6 +120,9 @@ Route::middleware(['auth'])->group(function () {
 
         //Penjadwalan Seminar
         Route::get('/mahasiswa/proposal/jadwalsempro', 'MahasiswaController@viewJadwalSempro')->name('datajadwalsempro');
+
+        //Hasil Seminar
+        Route::get('/mahasiswa/proposal/hasil', 'MahasiswaController@viewHasilSempro')->name('datahasilsempromhs');
     });
  
     Route::get('/logout', function() {

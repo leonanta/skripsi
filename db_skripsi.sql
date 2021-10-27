@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2021 at 08:15 AM
+-- Generation Time: Oct 27, 2021 at 05:55 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -43,8 +43,8 @@ CREATE TABLE `berkas_sempro` (
 --
 
 INSERT INTO `berkas_sempro` (`id`, `nim`, `id_proposal`, `id_plot_dosbing`, `berkas_sempro`, `status`, `created_at`, `updated_at`) VALUES
-(1, '201851048', 3, 44, 'sempro.zip', 'Terjadwal', '2021-10-12 19:12:13', '2021-10-12 19:12:13'),
-(5, '201851081', 2, 45, 'sempro - Copy.zip', 'Menunggu Dijadwalkan', '2021-10-24 23:11:56', '2021-10-24 23:11:56');
+(5, '201851081', 2, 45, 'sempro - Copy.zip', 'Terjadwal', '2021-10-24 23:11:56', '2021-10-24 23:11:56'),
+(6, '201851048', 6, 44, 'sempro.zip', 'Terjadwal', '2021-10-27 07:03:59', '2021-10-27 07:03:59');
 
 -- --------------------------------------------------------
 
@@ -87,6 +87,31 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `hasil_sempro`
+--
+
+CREATE TABLE `hasil_sempro` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nim` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_proposal` bigint(20) UNSIGNED NOT NULL,
+  `id_jadwal_sempro` bigint(20) UNSIGNED NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nilai` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `hasil_sempro`
+--
+
+INSERT INTO `hasil_sempro` (`id`, `nim`, `id_proposal`, `id_jadwal_sempro`, `status`, `nilai`, `created_at`, `updated_at`) VALUES
+(4, '201851081', 2, 6, 'Lulus', 'B', '2021-10-26 19:59:20', '2021-10-26 19:59:20'),
+(5, '201851048', 6, 7, 'Lulus', 'AB', '2021-10-27 07:11:58', '2021-10-27 07:11:58');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `jadwal_sempro`
 --
 
@@ -108,7 +133,8 @@ CREATE TABLE `jadwal_sempro` (
 --
 
 INSERT INTO `jadwal_sempro` (`id`, `nim`, `id_berkas_sempro`, `tanggal`, `jam`, `tempat`, `ket`, `status`, `created_at`, `updated_at`) VALUES
-(4, '201851048', 1, '2021-10-27', '09:00:00', 'Zoom', 'Siap', 'Belum', '2021-10-20 21:39:43', '2021-10-20 21:39:43');
+(6, '201851081', 5, '2021-10-28', '09:00:00', 'Zoom', 'Oke', 'Sudah', '2021-10-26 19:45:59', '2021-10-26 19:45:59'),
+(7, '201851048', 6, '2021-10-29', '09:00:00', 'Zoom', 'link njum', 'Sudah', '2021-10-27 07:08:34', '2021-10-27 07:08:34');
 
 -- --------------------------------------------------------
 
@@ -132,7 +158,7 @@ CREATE TABLE `mahasiswa` (
 
 INSERT INTO `mahasiswa` (`id`, `nim`, `name`, `email`, `hp`, `created_at`, `updated_at`) VALUES
 (12, '201851048', 'LEONANTA PRAMUDYA KUSUMA', 'leonantapramudya7@gmail.com', '089855655451', '2021-10-11 07:42:53', '2021-10-11 07:42:53'),
-(13, '201851081', 'SITI WIDAYANTI', 'siti@gmail.com', '089855655452', '2021-10-11 07:42:53', '2021-10-11 07:42:53');
+(13, '201851081', 'SITI WIDAYANTI', 'sitiw@gmail.com', '089855655452', '2021-10-11 07:42:53', '2021-10-11 07:42:53');
 
 -- --------------------------------------------------------
 
@@ -162,7 +188,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2021_10_12_020848_create_proposal_table', 7),
 (10, '2021_10_12_143001_create_berkas_sempro_table', 8),
 (11, '2021_10_13_131031_create_jadwal_sempro_table', 9),
-(12, '2021_10_18_005758_create_semester_table', 10);
+(12, '2021_10_18_005758_create_semester_table', 10),
+(13, '2021_10_27_020205_create_hasil_sempro_table', 11),
+(14, '2021_10_27_021334_create_hasil_sempro_table', 12),
+(15, '2021_10_27_022758_create_hasil_sempro_table', 13);
 
 -- --------------------------------------------------------
 
@@ -175,6 +204,13 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('leonantapramudya7@gmail.com', '$2y$10$UfTytnMY.xaEc2.g9fxME.OdAjrgrT3yoDmwoPcdnUeCsDqrCkcD.', '2021-10-27 08:52:23');
 
 -- --------------------------------------------------------
 
@@ -227,8 +263,9 @@ CREATE TABLE `proposal` (
 --
 
 INSERT INTO `proposal` (`id`, `id_semester`, `nim`, `topik`, `judul`, `proposal`, `ket1`, `ket2`, `id_plot_dosbing`, `komentar`, `komentar1`, `komentar2`, `created_at`, `updated_at`) VALUES
-(2, 3, '201851081', 'Jaringan', 'Jaringan', 'Test - Copy.pdf', 'ACC', 'ACC', 45, 'Terimakasih', 'ACC ya', 'ACC ya', '2021-10-12 06:30:07', '2021-10-12 06:30:07'),
-(3, 3, '201851048', 'Website', 'Kokop', 'Test1.pdf', 'ACC', 'ACC', 44, 'Terimakasih', 'ACC ya', 'ACC ya', '2021-10-11 20:35:35', '2021-10-11 20:35:35');
+(2, 3, '201851081', 'Jaringan', 'Jaringan', 'Test - Copy.pdf', 'Disetujui', 'Disetujui', 45, 'Terimakasih', 'ACC ya', 'ACC ya', '2021-10-12 06:30:07', '2021-10-12 06:30:07'),
+(5, 3, '201851048', 'Website', 'Sistem Monitoring Skripsi', 'Test.pdf', 'Ditolak', 'Ditolak', 44, 'Upload Proposal', '-', '-', '2021-10-27 06:59:29', '2021-10-27 06:59:29'),
+(6, 3, '201851048', 'Android', 'Sistem Monitoring Skripsi ACC', 'Test.pdf', 'Disetujui', 'Disetujui', 44, 'Upload Proposal Lagi', '-', '-', '2021-10-27 07:00:13', '2021-10-27 07:00:13');
 
 -- --------------------------------------------------------
 
@@ -263,6 +300,7 @@ CREATE TABLE `users` (
   `no_induk` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -275,12 +313,12 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `no_induk`, `name`, `username`, `email_verified_at`, `password`, `remember_token`, `role`, `created_at`, `updated_at`) VALUES
-(1, '12345678910', 'Admin', 'adminskripsi', '2021-09-22 02:52:53', '$2y$10$f3DuEvp3mflK9tvKe3.FD.FHUqsL167dYWwCXkJwcXnZtcaU/mMoO', NULL, 'admin', '2021-09-22 02:52:53', NULL),
-(19, '0406107004', 'Ahmad Jazuli S.Kom., M.Kom', '0406107004', NULL, '$2y$10$y8rS69rzSE.PMKc.I35gQ.4CrAr2HV79EJ0DWcdkAUV7lwk8MPGce', NULL, 'dosen', '2021-10-11 14:38:13', '2021-10-11 14:38:13'),
-(20, '0608068502', 'Tutik Khotimah S.Kom., M.Kom', '0608068502', NULL, '$2y$10$VZjx.qVQNgCiGuRzZg4zZ.f3/sydrYFHv2ne288km3nLiBQM6iCcK', NULL, 'dosen', '2021-10-11 14:39:56', '2021-10-11 14:39:56'),
-(21, '201851048', 'LEONANTA PRAMUDYA KUSUMA', '201851048', NULL, '$2y$10$68RaiB3g6/G6V8V5TbN8FeGD7sMBtN7UkLvxbYVHdjYaf0ksObaWi', NULL, 'mahasiswa', '2021-10-11 14:42:53', '2021-10-11 14:42:53'),
-(22, '201851081', 'SITI WIDAYANTI', '201851081', NULL, '$2y$10$nrsPl2ifLokZhShvk9BemeEariQepvjxuCrPYnQ6oQDRpFQDf62TC', NULL, 'mahasiswa', '2021-10-11 14:42:53', '2021-10-11 14:42:53');
+INSERT INTO `users` (`id`, `no_induk`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `role`, `created_at`, `updated_at`) VALUES
+(1, '12345678910', 'Admin', 'adminskripsi', NULL, '2021-09-22 02:52:53', '$2y$10$f3DuEvp3mflK9tvKe3.FD.FHUqsL167dYWwCXkJwcXnZtcaU/mMoO', NULL, 'admin', '2021-09-22 02:52:53', NULL),
+(19, '0406107004', 'Ahmad Jazuli S.Kom., M.Kom', '0406107004', NULL, NULL, '$2y$10$y8rS69rzSE.PMKc.I35gQ.4CrAr2HV79EJ0DWcdkAUV7lwk8MPGce', NULL, 'dosen', '2021-10-11 14:38:13', '2021-10-11 14:38:13'),
+(20, '0608068502', 'Tutik Khotimah S.Kom., M.Kom', '0608068502', NULL, NULL, '$2y$10$VZjx.qVQNgCiGuRzZg4zZ.f3/sydrYFHv2ne288km3nLiBQM6iCcK', NULL, 'dosen', '2021-10-11 14:39:56', '2021-10-11 14:39:56'),
+(21, '201851048', 'LEONANTA PRAMUDYA KUSUMA', '201851048', 'leonantapramudya7@gmail.com', NULL, '$2y$10$bTFEDPnym280mf5v9CZWpO9ZHSnDthJG7Z5YtulBXGWd9W1YvgEJi', 'jtNcEn0zPEQ084hy3rKiHm7kgcOqJh402HrCzHMpkj3u6i9nYvuZAcY8w4NM', 'mahasiswa', '2021-10-11 14:42:53', '2021-10-11 14:42:53'),
+(22, '201851081', 'SITI WIDAYANTI', '201851081', 'sitiw@gmail.com', NULL, '$2y$10$nrsPl2ifLokZhShvk9BemeEariQepvjxuCrPYnQ6oQDRpFQDf62TC', NULL, 'mahasiswa', '2021-10-11 14:42:53', '2021-10-11 14:42:53');
 
 --
 -- Indexes for dumped tables
@@ -307,6 +345,15 @@ ALTER TABLE `dosen`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `hasil_sempro`
+--
+ALTER TABLE `hasil_sempro`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `hasil_sempro_nim_foreign` (`nim`),
+  ADD KEY `hasil_sempro_id_proposal_foreign` (`id_proposal`),
+  ADD KEY `hasil_sempro_id_jadwal_sempro_foreign` (`id_jadwal_sempro`);
 
 --
 -- Indexes for table `jadwal_sempro`
@@ -372,7 +419,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `berkas_sempro`
 --
 ALTER TABLE `berkas_sempro`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `dosen`
@@ -387,10 +434,16 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `hasil_sempro`
+--
+ALTER TABLE `hasil_sempro`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `jadwal_sempro`
 --
 ALTER TABLE `jadwal_sempro`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
@@ -402,7 +455,7 @@ ALTER TABLE `mahasiswa`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `plot_dosbing`
@@ -414,7 +467,7 @@ ALTER TABLE `plot_dosbing`
 -- AUTO_INCREMENT for table `proposal`
 --
 ALTER TABLE `proposal`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `semester`
@@ -439,6 +492,14 @@ ALTER TABLE `berkas_sempro`
   ADD CONSTRAINT `berkas_sempro_id_plot_dosbing_foreign` FOREIGN KEY (`id_plot_dosbing`) REFERENCES `plot_dosbing` (`id`),
   ADD CONSTRAINT `berkas_sempro_id_proposal_foreign` FOREIGN KEY (`id_proposal`) REFERENCES `proposal` (`id`),
   ADD CONSTRAINT `berkas_sempro_nim_foreign` FOREIGN KEY (`nim`) REFERENCES `mahasiswa` (`nim`);
+
+--
+-- Constraints for table `hasil_sempro`
+--
+ALTER TABLE `hasil_sempro`
+  ADD CONSTRAINT `hasil_sempro_id_jadwal_sempro_foreign` FOREIGN KEY (`id_jadwal_sempro`) REFERENCES `jadwal_sempro` (`id`),
+  ADD CONSTRAINT `hasil_sempro_id_proposal_foreign` FOREIGN KEY (`id_proposal`) REFERENCES `proposal` (`id`),
+  ADD CONSTRAINT `hasil_sempro_nim_foreign` FOREIGN KEY (`nim`) REFERENCES `mahasiswa` (`nim`);
 
 --
 -- Constraints for table `jadwal_sempro`

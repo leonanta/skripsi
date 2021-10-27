@@ -1,11 +1,11 @@
-@extends('admin.main')
+@extends('dosen.main')
 
 @section('content')
     <div class="container-fluid mt-4">
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Monitoring Proposal</h1>
+            <h1 class="h3 mb-0 text-gray-800">Hasil Seminar Proposal</h1>
             {{-- <div class="pull-right">
                 <a href="/mahasiswa/proposal/tambah" class="btn btn-success btn-flat">
                     <i class="fa fa-plus"></i> Ajukan
@@ -38,9 +38,11 @@
                                 <th>NIM</th>
                                 <th>Nama</th>
                                 <th>Judul</th>
-                                <th>Proposal</th>
-                                <th>Dosbing 1</th>
-                                <th>Dosbing 2</th>
+                                <th>Tanggal</th>
+                                <th>Jam</th>
+                                <th>Tempat</th>
+                                <th>Status</th>
+                                <th>Nilai</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,16 +50,14 @@
                               @foreach($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item -> nim }}</td>
-                                    <td>{{ $item -> nama }}</td>
-                                    <td>{{ $item -> judul }}</td>
-                                    <td><a href="/download/{{$item->proposal}}">{{$item->proposal}}</a></td>
-                                    <td>{{ $item -> dosbing1 }} - 
-                                        <p class="btn btn-sm mt-2 <?=$item -> ket1 == 'Disetujui' ? 'btn-success' : 'btn-danger'?>">{{ $item -> ket1 }}</p>
-                                    </td>
-                                    <td>{{ $item -> dosbing2 }} -
-                                        <p class="btn btn-sm mt-2 <?=$item -> ket2 == 'Disetujui' ? 'btn-success' : 'btn-danger'?>">{{ $item -> ket2 }}</p>
-                                    </td>
+                                    <td>{{ $item -> nim}}</td>
+                                    <td>{{ $item -> nama}}</td>
+                                    <td>{{ $item -> judul}}</td>
+                                    <td>{{ tgl_indo($item->tanggal, true)}}</td>
+                                    <td>{{ $item -> jam }} WIB</td>
+                                    <td>{{ $item -> tempat }}</td>
+                                    <td>{{ $item -> status }}</td>
+                                    <td>{{ $item -> nilai }}</td>
                                 </tr>
                            @endforeach
                         </tbody>

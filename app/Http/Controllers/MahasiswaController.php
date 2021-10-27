@@ -23,10 +23,10 @@ class MahasiswaController extends Controller
         return view('mahasiswa.index', compact('data', 'user', 'mhs'));
     }
 
-    public function formEditProfil($id){
+    public function formEditProfil(){
         $user = Auth::user();
         $data = DB::table('mahasiswa')
-                ->where('nim', $id)->first();
+                ->where('nim', $user->no_induk)->first();
         return view ('mahasiswa.edit',  compact('data', 'user'));
     }
     public function updateProfil(Request $request, $id){
@@ -41,6 +41,12 @@ class MahasiswaController extends Controller
         ['name' => $name,
         'email' => $email,
         'hp' => $hp]
+        );
+
+        $data = DB::table('users')
+        ->where('no_induk', $id)
+        ->update(
+        ['email' => $email,]
         );
 
         return redirect('mahasiswa')->with(['success' => 'Berhasil']);
@@ -103,9 +109,9 @@ class MahasiswaController extends Controller
         ->select('berkas_sempro.id as id', 'berkas_sempro.nim as nim', 'mahasiswa.name as nama', 'mahasiswa.hp as hp', 'proposal.judul as judul', 
         'plot_dosbing.dosbing1 as dosbing1', 'plot_dosbing.dosbing2 as dosbing2' ,'berkas_sempro.berkas_sempro as berkas_sempro', 'berkas_sempro.status as status',)
         ->where('berkas_sempro.nim', $user->no_induk)
-        ->where('proposal.ket1', 'ACC')->where('proposal.ket2', 'ACC')
+        ->where('proposal.ket1', 'Disetujui')->where('proposal.ket2', 'Disetujui')
         ->get();
-        $dataprop = ProposalModel::all()->where('nim', $user -> no_induk)->where('ket1', 'ACC')->where('ket2', 'ACC')->first();
+        $dataprop = ProposalModel::all()->where('nim', $user -> no_induk)->where('ket1', 'Disetujui')->where('ket2', 'Disetujui')->first();
         $jadwal = DB::table('jadwal_sempro')
         ->join('mahasiswa', 'jadwal_sempro.nim', '=', 'mahasiswa.nim')
         ->join('berkas_sempro', 'jadwal_sempro.id_berkas_sempro', '=', 'berkas_sempro.id')
@@ -123,7 +129,7 @@ class MahasiswaController extends Controller
         $user = Auth::user();
         $datamhs = MahasiswaModel::all()->where('nim', $user -> no_induk)->first();
         $datadosbing = PlotDosbingModel::all()->where('nim', $user -> no_induk)->first();
-        $dataprop = ProposalModel::all()->where('nim', $user -> no_induk)->where('ket1', 'ACC')->where('ket2', 'ACC')->first();
+        $dataprop = ProposalModel::all()->where('nim', $user -> no_induk)->where('ket1', 'Disetujui')->where('ket2', 'Disetujui')->first();
         // dd($dataprop);
         return view ('mahasiswa.proposal.pendaftaran.add', compact('datamhs', 'datadosbing', 'dataprop', 'user'));
     }
@@ -168,5 +174,21 @@ class MahasiswaController extends Controller
         ->get();
         // dd($data);
         return view('mahasiswa.proposal.penjadwalan.read', compact('data', 'user'));
+    }
+
+
+    //Hasil Sempro
+    public function viewHasilSempro(){
+        $user = Auth::user();
+        $data = DB::table('hasil_sempro')
+        ->join('mahasiswa', 'hasil_sempro.nim', '=', 'mahasiswa.nim')
+        ->join('proposal', 'hasil_sempro.id_proposal', '=', 'proposal.id')
+        ->join('jadwal_sempro', 'hasil_sempro.id_jadwal_sempro', '=', 'jadwal_sempro.id')
+        ->join('plot_dosbing', 'proposal.id_plot_dosbing', '=', 'plot_dosbing.id')
+        ->select('hasil_sempro.id as id', 'hasil_sempro.nim as nim', 'mahasiswa.name as nama', 'proposal.judul as judul',
+        'jadwal_sempro.tanggal as tanggal', 'jadwal_sempro.jam as jam', 'jadwal_sempro.tempat as tempat', 'jadwal_sempro.ket as ket', 'hasil_sempro.status as status', 'hasil_sempro.nilai as nilai')
+        ->where('hasil_sempro.nim', $user->no_induk)
+        ->get();
+        return view('mahasiswa.proposal.hasil.read', compact('data', 'user'));
     }
 }
